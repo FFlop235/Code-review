@@ -1,28 +1,37 @@
 using System;
+using System.Numerics;
 
 namespace Example
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            Console.WriteLine("Введите число: ");
-            string input = Console.ReadLine();
-            int number;
-            if (int.TryParse(input, out number))
+            Console.Write("Введите число: ");
+            string? input = Console.ReadLine();
+
+            if (!int.TryParse(input, out int number))
             {
-                Console.WriteLine($"Факториал числа {number} = {Factorial(number)}");
+                Console.WriteLine("Неверный ввод: ожидается целое число.");
+                return;
             }
-            else
+
+            if (number < 0)
             {
-                Console.WriteLine("Неверный ввод");
+                Console.WriteLine("Факториал определён только для неотрицательных чисел.");
+                return;
             }
+
+            Console.WriteLine($"Факториал числа {number} = {Factorial(number)}");
         }
 
-        static int Factorial(int n)
+        private static BigInteger Factorial(int n)
         {
-            int result = 1;
-            for (int i = 1; i <= n; i++)
+            if (n < 0)
+                throw new ArgumentOutOfRangeException(nameof(n), "n должно быть >= 0.");
+
+            BigInteger result = BigInteger.One;
+            for (int i = 2; i <= n; i++)
             {
                 result *= i;
             }
